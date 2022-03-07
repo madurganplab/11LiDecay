@@ -1,0 +1,50 @@
+from mpl_toolkits import mplot3d
+import numpy as np
+import matplotlib.pyplot as plt
+import random
+import math
+
+#initialize variables
+m_n = 939.570 #keV/c^2
+E_0 = 250     #keV
+gamma = 25    #keV
+
+#theta rng
+theta_rng_list = []
+
+for i in range(0,100):
+        theta = round(random.uniform(0,math.pi),2)
+        theta_rng_list.append(theta)
+#print(theta_rng_list)
+
+#phi rng
+phi_rng_list = []
+
+for i in range(0,100):
+        phi = round(random.uniform(0,(2*math.pi)),2)
+        phi_rng_list.append(phi)
+#print(phi_rng_list)
+
+E_list = []
+P_list = []
+W_list = []
+real_E_list = []
+for i in range(0,5000):
+        E = round(random.uniform(200,300),2)
+        E_list.append(E)
+        P = round(random.uniform(0,1),2)
+        P_list.append(P)
+        W = (1/(4*math.pi*gamma))*((gamma**2)/((E_0-E)**2+((gamma**2)/4)))
+        W_list.append(W)
+        for j in range(len(P_list)):
+                if P_list[j] <= W_list[j]:
+                        real_E_list.append(W)
+
+fig,axs = plt.subplots()
+axs.set_title("Resonance Energy")
+#axs.set_xlabel("Pt (GeV)")
+#axs.set_ylabel("Particles")
+plt.hist(real_E_list, 1000)
+fig.savefig('energy.pdf')
+plt.show
+ 
